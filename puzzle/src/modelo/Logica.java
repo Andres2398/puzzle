@@ -19,6 +19,8 @@ public class Logica {
 	private int[][] matrizImagen;
 	private int turnos;
 	private Random r;
+	private int mezclas[][];
+	private int indiceMezclas;
 
 	/**
 	 * Constructor de la clase logica en el que iniciamos cada casilla del puzzle y
@@ -26,6 +28,8 @@ public class Logica {
 	 * de 4x4 porque son las fichas que tiene la imagen
 	 */
 	public Logica() {
+		indiceMezclas=0;
+		mezclas=new int[7][4];
 		turnos = 0;
 		r = new Random();
 		int k = 0;
@@ -99,7 +103,7 @@ public class Logica {
 	 * @return la imagen con las fichas cambiadas si el movimiento era posible
 	 */
 	public int[][] moverFicha(String input) {
-
+		indiceMezclas=0;
 		if (input.equals("i")) {
 			ComprobarmoverIzquierda();
 		} else if (input.equals("d")) {
@@ -108,9 +112,9 @@ public class Logica {
 			ComprobarmoverAbajo();
 		} else if (input.equals("a")) {
 			ComprobarmoverArriba();
-		} else if (input.equals("c"))
+		} else if (input.equals("c")) {
 			mezclarPuzzle();
-
+		}
 		return getMatrizImagen();
 	}
 	
@@ -124,9 +128,15 @@ public class Logica {
 				if (puzzle[i][j] == 0) {
 					moverFila(i + 1, j, -1);
 					int ayuda = puzzle[i][j];
+					mezclas[indiceMezclas][0]= i+1;
+					mezclas[indiceMezclas][1]= j;
+					mezclas[indiceMezclas][2]= i;
+					mezclas[indiceMezclas][3]= j;
+					indiceMezclas++;
 					puzzle[i][j] = puzzle[i + 1][j];
 					puzzle[i + 1][j] = ayuda;
 					setTurnos();
+					
 					return true;
 				}
 			}
@@ -144,6 +154,11 @@ public class Logica {
 				if (puzzle[i][j] == 0) {
 					moverFila(i - 1, j, 1);
 					int ayuda = puzzle[i][j];
+					mezclas[indiceMezclas][0]= i-1;
+					mezclas[indiceMezclas][1]= j;
+					mezclas[indiceMezclas][2]= i;
+					mezclas[indiceMezclas][3]= j;
+					indiceMezclas++;
 					puzzle[i][j] = puzzle[i - 1][j];
 					puzzle[i - 1][j] = ayuda;
 					setTurnos();
@@ -186,6 +201,11 @@ public class Logica {
 				if (puzzle[i][j] == 0) {
 					moverColumna(i, j - 1, 1);
 					int ayuda = puzzle[i][j];
+					mezclas[indiceMezclas][0]= i;
+					mezclas[indiceMezclas][1]= j-1;
+					mezclas[indiceMezclas][2]= i;
+					mezclas[indiceMezclas][3]= j;
+					indiceMezclas++;
 					puzzle[i][j] = puzzle[i][j - 1];
 					puzzle[i][j - 1] = ayuda;
 					setTurnos();
@@ -207,6 +227,11 @@ public class Logica {
 				if (puzzle[i][j] == 0) {
 					moverColumna(i, j + 1, -1);
 					int ayuda = puzzle[i][j];
+					mezclas[indiceMezclas][0]= i;
+					mezclas[indiceMezclas][1]= j+1;
+					mezclas[indiceMezclas][2]= i;
+					mezclas[indiceMezclas][3]= j;
+					indiceMezclas++;
 					puzzle[i][j] = puzzle[i][j + 1];
 					puzzle[i][j + 1] = ayuda;
 					setTurnos();
@@ -219,6 +244,14 @@ public class Logica {
 
 	}
 	
+	public int[][] getMezclas() {
+		return mezclas;
+	}
+
+	public void setMezclas(int[][] mezclas) {
+		this.mezclas = mezclas;
+	}
+
 	/**
 	 * Metodo para mover intercambiar la ficha en la columna 
 	 * @param fila de la ficha que se quiere intercambiar
@@ -253,27 +286,35 @@ public class Logica {
 	}
 
 	public int[][] mezclarPuzzle() {
-		int vecesMezcla = 0;
+		int vecesMezcla = -1;
+		
 		while (vecesMezcla != 6) {
 			int random = r.nextInt(4);
 			if (random == 0) {
-				if (ComprobarmoverDerecha())
+				if (ComprobarmoverDerecha()) {
 					vecesMezcla++;
+				
+				}
 			} else if (random == 1) {
-				if (ComprobarmoverIzquierda())
+				if (ComprobarmoverIzquierda()) {
 					vecesMezcla++;
+				
 			}
-
+			}
 			else if (random == 2) {
-				if (ComprobarmoverAbajo())
+				if (ComprobarmoverAbajo()) {
 					vecesMezcla++;
+				
 			}
-
+			}
 			else {
-				if (ComprobarmoverArriba())
+				if (ComprobarmoverArriba()) {
 					vecesMezcla++;
-			}
-
+				
+			}}
+			
+			
+			
 		}
 		setTurnos(vecesMezcla);
 		return getMatrizImagen();

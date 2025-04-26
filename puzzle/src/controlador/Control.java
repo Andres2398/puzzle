@@ -30,6 +30,7 @@ public class Control {
 		interfaz.mostrarImagen();
 		interfaz.pedirRandomizar();
 		matrizImagen=logica.mezclarPuzzle();
+		interfaz.mostrarMezclas(logica.getMezclas());
 		interfaz.insertarNuevaImagenVer(matrizImagen);
 		boolean fin = false;
 		boolean ganar = false;
@@ -39,7 +40,9 @@ public class Control {
 				matrizImagen=logica.moverFicha(input);
 				interfaz.insertarNuevaImagenVer(matrizImagen);
 				ganar=logica.comprobarGanar();
-				
+				if(input.equals("c")) {
+					interfaz.mostrarMezclas(logica.getMezclas());
+				}
 			}
 			else {
 				fin=true;
