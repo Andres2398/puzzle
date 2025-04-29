@@ -21,6 +21,7 @@ public class Logica {
 	private Random r;
 	private int mezclas[][];
 	private int indiceMezclas;
+	private int [][][] matrizTurnos;
 
 	/**
 	 * Constructor de la clase logica en el que iniciamos cada casilla del puzzle y
@@ -28,6 +29,7 @@ public class Logica {
 	 * de 4x4 porque son las fichas que tiene la imagen
 	 */
 	public Logica() {
+		matrizTurnos=new int [500][400][400];
 		indiceMezclas=0;
 		mezclas=new int[7][4];
 		turnos = 0;
@@ -135,8 +137,8 @@ public class Logica {
 					indiceMezclas++;
 					puzzle[i][j] = puzzle[i + 1][j];
 					puzzle[i + 1][j] = ayuda;
+					copiar();
 					setTurnos();
-					
 					return true;
 				}
 			}
@@ -161,6 +163,7 @@ public class Logica {
 					indiceMezclas++;
 					puzzle[i][j] = puzzle[i - 1][j];
 					puzzle[i - 1][j] = ayuda;
+					copiar();
 					setTurnos();
 					return true;
 				}
@@ -208,6 +211,7 @@ public class Logica {
 					indiceMezclas++;
 					puzzle[i][j] = puzzle[i][j - 1];
 					puzzle[i][j - 1] = ayuda;
+					copiar();
 					setTurnos();
 					return true;
 				}
@@ -234,6 +238,7 @@ public class Logica {
 					indiceMezclas++;
 					puzzle[i][j] = puzzle[i][j + 1];
 					puzzle[i][j + 1] = ayuda;
+					copiar();
 					setTurnos();
 					return true;
 				}
@@ -275,7 +280,12 @@ public class Logica {
 		insertarBloque(bloqueIntercambiar.getPieza(), filaMatrizImagenBlanco, columnaMatrizImagenBlanco);
 
 	}
-
+	/**
+	 * Metodo para insertar el bloque en la matrizImagen y asi cambiar de posicion las piezas
+	 * @param pieza que se quiere insertar en la Matriz Imagen
+	 * @param filaInicio fila desde donde vamos a insertar la pieza
+	 * @param columnaInicio columna desde donde vamos a insertar la pieza
+	 */
 	public void insertarBloque(int[][] pieza, int filaInicio, int columnaInicio) {
 		for (int i = 0; i < 100; i++) {
 			for (int j = 0; j < 100; j++) {
@@ -284,7 +294,11 @@ public class Logica {
 			}
 		}
 	}
-
+	/**
+	 * Metodo para mezclar puzzle mediante intentos en un while cuando una pieza se ha mezclado 
+	 * sube 1 el contador, se mezclara un total de 7 veces
+	 * @return la matriz de enteros de todos los pixeles de la imagen
+	 */
 	public int[][] mezclarPuzzle() {
 		int vecesMezcla = -1;
 		
@@ -319,7 +333,10 @@ public class Logica {
 		setTurnos(vecesMezcla);
 		return getMatrizImagen();
 	}
-
+	/**
+	 * Metodo para comprobar si se ha ganado, comparando puzzle con puzzleResuselto
+	 * @return true si se ha ganado, false si no
+	 */
 	public boolean comprobarGanar() {
 		for (int i = 0; i < puzzle.length; i++) {
 			for (int j = 0; j < puzzle.length; j++) {
@@ -331,5 +348,13 @@ public class Logica {
 		}
 		return true;
 	}
+	public void copiar(){
+		
+			for (int i = 0; i < matrizTurnos[0].length; i++) {
+				for (int j = 0; j < matrizTurnos[0][0].length; j++) {
+					matrizTurnos[getTurnos()][i][j]=matrizImagen[i][j];
+				}
+			}
+		}
+	}
 
-}

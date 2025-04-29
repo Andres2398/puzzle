@@ -60,8 +60,9 @@ public class Interfaz {
 	 * @param indice del array de IMAGENS que ha seleccionado el usuario
 	 */
 	private void establecerImagen(int indice) {
-
-		imagen = new Imagen("./img/" + IMAGENES[indice]);
+		
+		imagen = new Imagen("C:/Users/1DAM-11/git/puzzle/puzzle/img/" + IMAGENES[indice]);
+		
 	}
 
 	/**
@@ -137,14 +138,16 @@ public class Interfaz {
 
 	/**
 	 * Mensaje de victoria para el usuario
-	 * 
 	 * @param turnos cantidad de turnos que le ha llevado completar el juego
 	 */
 	public void mensajeVictoria(int turnos) {
 		System.out.println("Felicidades has ganado en " + turnos + " turnos");
 
 	}
-
+	/**
+	 * 
+	 * @param mezclas
+	 */
 	public void mostrarMezclas(int[][] mezclas) {
 		System.out.println("Estas son las mezclas realizadas");
 		for (int i = 0; i < mezclas.length; i++) {
